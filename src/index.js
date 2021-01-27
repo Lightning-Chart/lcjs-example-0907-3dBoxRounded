@@ -18,61 +18,10 @@ const {
     Themes
 } = lcjs
 
+const {
+    createWaterDropDataGenerator
+} = require('@arction/xydata')
 
-/**
- * Data generator function for the example.
- */
-function WaterDropGenerator(
-    sizeX,
-    sizeZ,
-    xPositionsNormalized,
-    zPositionsNormalized,
-    amplitudes,
-    offsetLevel,
-    volatility
-) {
-    function CalculateWavesAtPoint(
-        x,
-        z
-    ) {
-        let resultValue = 0
-        const iOscillatorCount = oscillators.length
-        for (let i = 0; i < iOscillatorCount; i++) {
-            const oscillator = oscillators[i]
-            const distX = x - oscillator.centerX
-            const distZ = z - oscillator.centerZ
-            const dist = Math.sqrt(distX * distX + distZ * distZ)
-            resultValue += oscillator.gain * oscillator.amplitude * Math.cos(dist * volatility) * Math.exp(-dist * 3.0)
-        }
-        return resultValue
-    }
-
-    const iOscCount = amplitudes.length
-    const oscillators = []
-
-    for (let iOsc = 0; iOsc < iOscCount; iOsc++) {
-        oscillators[iOsc] = {
-            amplitude: amplitudes[iOsc],
-            centerX: xPositionsNormalized[iOsc],
-            centerZ: zPositionsNormalized[iOsc],
-            gain: 1,
-            offsetY: 0
-        }
-    }
-
-    const result = Array.from(Array(sizeZ)).map(() => Array(sizeX))
-    const dTotalX = 1
-    const dTotalZ = 1
-    const stepX = (dTotalX / sizeX)
-    const stepZ = (dTotalZ / sizeZ)
-
-    for (let row = 0, z = 0; row < sizeZ; row++, z += stepZ) {
-        for (let col = 0, x = 0; col < sizeX; col++, x += stepX) {
-            result[col][row] = CalculateWavesAtPoint(x, z) + offsetLevel
-        }
-    }
-    return result
-}
 
 
 const chart3D = lightningChart().Chart3D( {
@@ -113,50 +62,45 @@ boxSeries
     // .setRoundedEdges( undefined )
 
 // Generate height map data.
-const waterdropData = WaterDropGenerator(
-    resolution, // size of nodes in X
-    resolution, // size of nodes in Z
-    [0.2, 0.5, 0.7], // Drop X positions in scale 0...1
-    [0.6, 0.5, 0.3], // Drop Z positions in scale 0...1
-    [15, 50, 3], // Amplitudes, as Y axis values
-    47, // Offset level (mid-Y)
-    25 // Volatility, wave generating density
-)
-
-let t = 0
-const step = () => {
-
-    const result = []
-    for ( let x = 0; x < resolution; x++ ) {
-        for ( let y = 0; y < resolution; y++ ) {
-            const s = 1
-            const height = Math.max(
-                waterdropData[y][x] +
-                50 * Math.sin( ( t + x * .50 ) * Math.PI / resolution ) +
-                20 * Math.sin( ( t + y * 1.0 ) * Math.PI / resolution ), 0 )
-            const box = {
-                xCenter: x,
-                yCenter: height / 2,
-                zCenter: y,
-                xSize: s,
-                ySize: height,
-                zSize: s,
-                // Specify an ID for each Box in order to modify it during later frames, instead of making new Boxes.
-                id: String( result.length ),
-                // Specify color Look-Up-Value for each Box.
-                value: height
+createWaterDropDataGenerator()
+    .setRows( resolution )
+    .setColumns( resolution )
+    .generate()
+    .then( waterdropData => {
+        let t = 0
+        const step = () => {
+            const result = []
+            for ( let x = 0; x < resolution; x++ ) {
+                for ( let y = 0; y < resolution; y++ ) {
+                    const s = 1
+                    const height = Math.max(
+                        waterdropData[y][x] +
+                        50 * Math.sin( ( t + x * .50 ) * Math.PI / resolution ) +
+                        20 * Math.sin( ( t + y * 1.0 ) * Math.PI / resolution ), 0 )
+                    const box = {
+                        xCenter: x,
+                        yCenter: height / 2,
+                        zCenter: y,
+                        xSize: s,
+                        ySize: height,
+                        zSize: s,
+                        // Specify an ID for each Box in order to modify it during later frames, instead of making new Boxes.
+                        id: String( result.length ),
+                        // Specify color Look-Up-Value for each Box.
+                        value: height
+                    }
+                    result.push( box )
+                }
             }
-            result.push( box )
+        
+            boxSeries
+                .invalidateData( result )
+        
+            t += 0.1
+            requestAnimationFrame( step )
         }
-    }
-
-    boxSeries
-        .invalidateData( result )
-
-    t += 0.1
-    requestAnimationFrame( step )
-}
-step()
+        step()
+    })
 
 
 
