@@ -55,11 +55,13 @@ const lut = new LUT( {
 } )
 
 boxSeries
-    .setFillStyle( new PalettedFill( { lut } ) )
-    // Specify edge roundness. Note, that edge rounding is enabled by default.
+    .setFillStyle( new PalettedFill( { lut, lookUpProperty: 'y' } ) )
+    // Specify edge roundness.
     // For applications with massive amounts of small Boxes, it is wise to disable for performance benefits.
     .setRoundedEdges( 0.4 )
-    // .setRoundedEdges( undefined )
+
+// Add LegendBox to chart.
+const legend = chart3D.addLegendBox().add(chart3D)
 
 // Generate height map data.
 createWaterDropDataGenerator()
@@ -86,8 +88,6 @@ createWaterDropDataGenerator()
                         zSize: s,
                         // Specify an ID for each Box in order to modify it during later frames, instead of making new Boxes.
                         id: String( result.length ),
-                        // Specify color Look-Up-Value for each Box.
-                        value: height
                     }
                     result.push( box )
                 }
@@ -150,3 +150,6 @@ const handleCameraAnimationToggled = ( state ) => {
 const cameraAnimationEnabledCheckbox = group.addElement( UIElementBuilders.CheckBox )
 cameraAnimationEnabledCheckbox.onSwitch((_, state) => handleCameraAnimationToggled( state ))
 handleCameraAnimationToggled( true )
+chart3D.onBackgroundMouseDrag(() => {
+    handleCameraAnimationToggled( false )
+})

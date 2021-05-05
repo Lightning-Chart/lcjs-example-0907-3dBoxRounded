@@ -116,8 +116,8 @@ Direct developer email support can be purchased through a [Support Plan][4] or b
 © Arction Ltd 2009-2020. All rights reserved.
 
 
-[3D chart]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/classes/chart3d.html
-[3D box series]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/classes/boxseries3d.html
-[Box data centered]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/interfaces/boxdatacentered.html
-[Box data bounds]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/interfaces/boxdatabounds.html
+[3D chart]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/classes/chart3d.html
+[3D box series]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/classes/boxseries3d.html
+[Box data centered]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/interfaces/boxdatacentered.html
+[Box data bounds]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/interfaces/boxdatabounds.html
 
