@@ -1,6 +1,6 @@
-# 3D Box Series rounded edges
+# JavaScript 3D Box Series rounded edges
 
-![3D Box Series rounded edges](3dBoxRounded.png)
+![JavaScript 3D Box Series rounded edges](3dBoxRounded.png)
 
 This demo application belongs to the set of examples for LightningChart JS, data visualization library for JavaScript.
 
