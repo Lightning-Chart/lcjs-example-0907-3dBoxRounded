@@ -24,6 +24,7 @@ const {
 
 
 const chart3D = lightningChart().Chart3D( {
+    disableAnimations: true,
     // theme: Themes.darkGold
 } )
     .setTitle( 'BoxSeries3D with rounded edges enabled' )
