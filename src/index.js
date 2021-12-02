@@ -113,7 +113,7 @@ createWaterDropDataGenerator()
 // Animate Camera movement from file.
 ;(async () => {
     const cameraAnimationData = await (
-        fetch( document.head.baseURI + 'examples/assets/lcjs_example_0907_3dBoxRounded-camera.json' )
+        fetch( document.head.baseURI + 'examples/assets/0907/camera.json' )
             .then( r => r.json() )
     )
     if ( ! cameraAnimationData ) {
