@@ -24,7 +24,7 @@ const { createWaterDropDataGenerator } = xydata
 
 const chart3D = lightningChart()
     .Chart3D({
-        theme: Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined,
+        theme: Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined
     })
     .setTitle('BoxSeries3D with rounded edges enabled')
 
