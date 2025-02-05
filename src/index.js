@@ -145,8 +145,8 @@ const handleCameraAnimationToggled = (state) => {
     }
 }
 const cameraAnimationEnabledCheckbox = group.addElement(UIElementBuilders.CheckBox)
-cameraAnimationEnabledCheckbox.onSwitch((_, state) => handleCameraAnimationToggled(state))
+cameraAnimationEnabledCheckbox.addEventListener('switch', (event) => handleCameraAnimationToggled(event.state))
 handleCameraAnimationToggled(true)
-chart3D.onBackgroundMouseDrag(() => {
+chart3D.background.addEventListener('pointerdown', () => {
     handleCameraAnimationToggled(false)
 })
