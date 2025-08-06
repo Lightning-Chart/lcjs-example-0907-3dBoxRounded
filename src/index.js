@@ -17,6 +17,7 @@ const {
     UIOrigins,
     UIElementBuilders,
     regularColorSteps,
+    LegendPosition,
     Themes,
 } = lcjs
 
@@ -26,6 +27,9 @@ const chart3D = lightningChart({
             resourcesBaseUrl: new URL(document.head.baseURI).origin + new URL(document.head.baseURI).pathname + 'resources/',
         })
     .Chart3D({
+        legend: {
+            position: LegendPosition.RightCenter,
+        },
         theme: Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined,
     })
     .setTitle('BoxSeries3D with rounded edges enabled')
@@ -51,16 +55,6 @@ boxSeries
     // Specify edge roundness.
     // For applications with massive amounts of small Boxes, it is wise to disable for performance benefits.
     .setRoundedEdges(0.4)
-
-// Add LegendBox to chart.
-const legend = chart3D
-    .addLegendBox()
-    // Dispose example UI elements automatically if they take too much space. This is to avoid bad UI on mobile / etc. devices.
-    .setAutoDispose({
-        type: 'max-width',
-        maxWidth: 0.3,
-    })
-    .add(chart3D)
 
 // Generate height map data.
 createWaterDropDataGenerator()
